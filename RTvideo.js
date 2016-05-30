@@ -44,6 +44,13 @@ function RTvideo(opt){
 	this.lasttime;
 	this.timebtw;
 	this.timer;
+	this.image = new Image();
+	this.image.onload = function(e) {
+			that.canvas.width=that.image.width;
+			that.canvas.height=that.image.height;
+			that.ctx.drawImage(that.image,0,0);
+			that.revokeObjectURL(that.image.src); // 清除释放
+		};
 	
 	this.createObjectURL=window[window.URL ? 'URL' : 'webkitURL']['createObjectURL'];
 	this.revokeObjectURL=window[window.URL ? 'URL' : 'webkitURL']['revokeObjectURL'];
@@ -125,14 +132,8 @@ console.log('d');
 		},runtime);
 
 	if (typeof(data)=='object'){
-		var image = new Image();
-		image.onload = function(e) {
-			that.canvas.width=image.width;
-			that.canvas.height=image.height;
-			that.ctx.drawImage(image,0,0);
-			that.revokeObjectURL(image.src); // 清除释放
-		};
-		image.src = that.createObjectURL(data);
+		
+		that.image.src = that.createObjectURL(data);
 	}
 
 }
