@@ -8,7 +8,7 @@ var video=new RTvideo({
 	width:320,
 	height:240,
 	key:"somewhere/name.jpg",
-	id:"videocvs"   //canvas id
+	id:"videocvs"   //canvas id 可以通过id自适应img或者canvas
 
 });
 
@@ -26,6 +26,7 @@ function RTvideo(opt){
 		FPS:10,
 		key:"",
 		id:"",
+		bindtype:"",
 		server_side_encode:false,
 		opt:75,
 		autostart:false,
@@ -44,13 +45,8 @@ function RTvideo(opt){
 	this.lasttime;
 	this.timebtw;
 	this.timer;
-	this.image = new Image();
-	this.image.onload = function(e) {
-			that.canvas.width=that.image.width;
-			that.canvas.height=that.image.height;
-			that.ctx.drawImage(that.image,0,0);
-			that.revokeObjectURL(that.image.src); // 清除释放
-		};
+	this.image;
+	
 	
 	this.createObjectURL=window[window.URL ? 'URL' : 'webkitURL']['createObjectURL'];
 	this.revokeObjectURL=window[window.URL ? 'URL' : 'webkitURL']['revokeObjectURL'];
@@ -65,11 +61,35 @@ function RTvideo(opt){
 		this.ws.open();
 	}
 }
-RTvideo.prototype.bind=function(canvasid){
-	this.canvas=document.getElementById(canvasid);
-	this.ctx=this.canvas.getContext('2d');
-	this.canvas.style.width = this.opt.width+"px";
-	this.canvas.style.height = this.opt.height+"px";
+RTvideo.prototype.bind=function(id){
+	
+	var that=this;
+	var obj=document.getElementById(id);
+	this.opt.bindtype=obj.tagName;
+	if (this.opt.bindtype=="IMG"){
+		this.image =obj;
+		this.image.style.width = this.opt.width+"px";
+		this.image.style.height = this.opt.height+"px";
+		this.image.onload = function(e) {
+				that.revokeObjectURL(that.image.src); // 清除释放
+			};
+	}else if (this.opt.bindtype=="CANVAS"){
+	
+		this.image = new Image();
+		this.image.onload = function(e) {
+				that.canvas.width=that.image.width;
+				that.canvas.height=that.image.height;
+				that.ctx.drawImage(that.image,0,0);
+				that.revokeObjectURL(that.image.src); // 清除释放
+			};
+		this.canvas=obj;
+		this.ctx=this.canvas.getContext('2d');
+		this.canvas.style.width = this.opt.width+"px";
+		this.canvas.style.height = this.opt.height+"px";
+	}else{
+		console.log("We need <img> or <canvas>");
+	}
+	
 }
 RTvideo.prototype.start=function(){
 	if (!this.isstart){
