@@ -11,6 +11,7 @@
 ```
 <canvas id="videocvs" class=""></canvas>
 
+<script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="WSocket.js"></script>
 <script type="text/javascript" src="RTvideo.js"></script>
 <script type="text/javascript">
