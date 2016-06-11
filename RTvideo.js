@@ -1,19 +1,14 @@
 /*
 实时视频类
-
 <canvas id="videocvs" class=""></canvas>
-
 var video=new RTvideo({
 	server:"ws://172.0.8.5:8080",
 	width:320,
 	height:240,
 	key:"somewhere/name.jpg",
 	id:"videocvs"   //canvas id 可以通过id自适应img或者canvas
-
 });
-
 video.start();
-
 video.stop();
 */
 
@@ -86,6 +81,8 @@ RTvideo.prototype.bind=function(id){
 	this.opt.bindtype=obj.tagName;
 	if (this.opt.bindtype=="IMG"){
 		this.image =obj;
+		this.image.width=this.opt.width;
+		this.image.height=this.opt.height;
 		this.image.style.width = this.opt.stylewidth;
 		this.image.style.height = this.opt.styleheight;
 		this.image.onload = function(e) {
@@ -94,6 +91,11 @@ RTvideo.prototype.bind=function(id){
 	}else if (this.opt.bindtype=="CANVAS"){
 	
 		this.image = new Image();
+		this.image.width=this.opt.width;
+		this.image.height=this.opt.height;
+		this.canvas.style.width = this.opt.stylewidth;
+		this.canvas.style.height = this.opt.styleheight;
+		
 		this.image.onload = function(e) {
 				that.canvas.width=that.image.width;
 				that.canvas.height=that.image.height;
@@ -102,8 +104,7 @@ RTvideo.prototype.bind=function(id){
 			};
 		this.canvas=obj;
 		this.ctx=this.canvas.getContext('2d');
-		this.canvas.style.width = this.opt.stylewidth;
-		this.canvas.style.height = this.opt.styleheight;
+		
 	}else{
 		console.log("We need <img> or <canvas>");
 	}
@@ -167,4 +168,3 @@ RTvideo.prototype.draw=function(data,evt){
 	}
 
 }
-
