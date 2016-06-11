@@ -91,11 +91,7 @@ RTvideo.prototype.bind=function(id){
 	}else if (this.opt.bindtype=="CANVAS"){
 	
 		this.image = new Image();
-		this.image.width=this.opt.width;
-		this.image.height=this.opt.height;
-		this.canvas.style.width = this.opt.stylewidth;
-		this.canvas.style.height = this.opt.styleheight;
-		
+
 		this.image.onload = function(e) {
 				that.canvas.width=that.image.width;
 				that.canvas.height=that.image.height;
@@ -104,6 +100,10 @@ RTvideo.prototype.bind=function(id){
 			};
 		this.canvas=obj;
 		this.ctx=this.canvas.getContext('2d');
+		this.canvas.width=this.opt.width;
+		this.canvas.height=this.opt.height;
+		this.canvas.style.width = this.opt.stylewidth;
+		this.canvas.style.height = this.opt.styleheight;
 		
 	}else{
 		console.log("We need <img> or <canvas>");
